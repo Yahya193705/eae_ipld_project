@@ -31,7 +31,7 @@ st.divider()
 def load_data():
     data_path = "data/cities_temperatures.csv"
 
-    temps_df = None  # TODO: Ex 3.1: Load the dataset using Pandas, use the data_path variable and set the index column to "show_id"
+    temps_df = pd.read_csv(data_path, index_col="show_id")  # TODO: Ex 3.1: Load the dataset using Pandas, use the data_path variable and set the index column to "show_id"
 
     if temps_df is not None:
         temps_df["Date"] = pd.to_datetime(temps_df["Date"]).dt.date
@@ -50,26 +50,29 @@ with st.expander("Check the complete dataset:"):
 
 # TODO: Ex 3.2: Create a new column called `AvgTemperatureCelsius` that contains the temperature in Celsius degrees.
 # temps_df["AvgTemperatureCelsius"] = ...       # uncomment this line to complete it
-
+temps_df["AvgTemperatureCelsius"] = (temps_df["temperature_max"] + temps_df["temperature_min"]) / 2
 
 # ----- Extracting some basic information from the dataset -----
 
 # TODO: Ex 3.3: How many different cities are there? Provide a list of them.
-unique_countries_list = None
+unique_countries_list = temps_df["city"].unique().tolist()
 
 # TODO: Ex 3.4: Which are the minimum and maximum dates?
-min_date = None
-max_date = None
+min_date = temps_df["date"].min()
+max_date = temps_df["date"].max()
 
 # TODO:  Ex 3.5: What are the global minimum and maximum temperatures? Find the city and the date of each of them.
-min_temp = None
-max_temp = None
+min_temp = temps_df["AvgTemperatureCelsius"].min()
+max_temp = temps_df["AvgTemperatureCelsius"].max()
 
-min_temp_city = None
-min_temp_date = None
+min_temp_row = temps_df.loc[temps_df["AvgTemperatureCelsius"].idxmin()]
+max_temp_row = temps_df.loc[temps_df["AvgTemperatureCelsius"].idxmax()]
 
-max_temp_city = None
-max_temp_date = None
+min_temp_city = min_temp_row["city"]
+min_temp_date = min_temp_row["date"]
+
+max_temp_city = max_temp_row["city"]
+max_temp_date = max_temp_row["date"]
 
 
 # ----- Displaying the extracted information metrics -----
@@ -129,8 +132,8 @@ if unique_countries_list is not None and len(selected_cities) > 0:
     # TODO: Ex 3.7: Plot the temperatures over time for the selected cities for the selected time period,
     # every city has to be its own line with a different color.
 
-    fig = plt.figure(figsize=(10, 5))
-
+fig = plt.figure(figsize=(10, 5))
+    
     # for city in selected_cities:
     #     city_df = None            # TODO
     #     city_df_period = None     # TODO
@@ -139,16 +142,25 @@ if unique_countries_list is not None and len(selected_cities) > 0:
     # plt.xlabel()  # TODO
     # plt.ylabel()  # TODO
 
-    plt.legend()
+for city in selected_cities:
+    city_df = temps_df[temps_df["city"] == city]
+    city_df_period = city_df[(city_df["date"] >= start_date) & (city_df["date"] <= end_date)]
+    plt.plot(city_df_period["date"], city_df_period["AvgTemperatureCelsius"], label=city)
+
+plt.title("Temperatures Over Time for Selected Cities")
+plt.xlabel("Date")
+plt.ylabel("Average Temperature (Celsius)")
+
+plt.legend()
     
-    c.pyplot(fig)
+c.pyplot(fig)
 
 
 
     # TODO: Make a histogram of the temperature reads of a list of selected cities, for the selected time period, 
     # every city has to be its own distribution with a different color.
 
-    fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(10, 5))
 
     # for city in selected_cities:
     #     city_df = None            # TODO
@@ -159,9 +171,17 @@ if unique_countries_list is not None and len(selected_cities) > 0:
     # plt.xlabel()  # TODO
     # plt.ylabel()  # TODO
 
-    plt.legend()
+for city in selected_cities:
+    city_df = temps_df[temps_df["city"] == city]
+    city_df_period = city_df[(city_df["date"] >= start_date) & (city_df["date"] <= end_date)]
+    plt.hist(city_df_period["AvgTemperatureCelsius"], bins=20, alpha=0.5, label=city)
 
-    c.pyplot(fig)
+plt.title("Temperature Distribution for Selected Cities")
+plt.xlabel("Average Temperature (Celsius)")
+plt.ylabel("Frequency")
+plt.legend()
+
+c.pyplot(fig)
 
 
 
