@@ -53,7 +53,7 @@ st.subheader("About Me")
 st.write("""
 - 🧑‍💻 Big Data & Analytics student 
 
-- 🛩️ prev: Finance & Fintech
+- 🛩️ Previous degree: Finance & Fintech
 
 - ❤️ Passionate about travelling and discovering new cultures
 
