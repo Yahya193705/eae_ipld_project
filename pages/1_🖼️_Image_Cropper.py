@@ -70,7 +70,7 @@ else:
 
 
 # TODO: Ex. 1.3: Crop the image array img_arr using the crop_min_h, crop_max_h, crop_min_w and crop_max_w values -----
-crop_min_h, crop_max_h, crop_min_w, crop_max_w = 50, 200, 100, 300
+
 crop_arr = img_arr[crop_min_h:crop_max_h, crop_min_w:crop_max_w]  # TODO: Generate the crop array into a new variable, use NumPy array slicing
 
 
