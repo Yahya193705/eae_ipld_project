@@ -5,25 +5,21 @@ import matplotlib.pyplot as plt
 # Some extra libraries to build the webapp
 import streamlit as st
 
-
 # ----- Page configs -----
 st.set_page_config(
-    page_title="Yahya's Portfolio",
+    page_title="Guilherme Datt Portfolio",
     page_icon="📊",
 )
-
 
 # ----- Left menu -----
 with st.sidebar:
     st.image("eae_img.png", width=200)
-    st.write("Interactive Project to load a dataset with information about Netflix Movies and Series, extract some insights usign Pandas and displaying them with Matplotlib.")
+    st.write("Interactive Project to load a dataset with information about Netflix Movies and Series, extract some insights using Pandas and displaying them with Matplotlib.")
     st.write("Data extracted from: https://www.kaggle.com/datasets/shivamb/netflix-shows (with some cleaning and modifications)")
-
 
 # ----- Title of the page -----
 st.title("🎬 Netflix Data Analysis")
 st.divider()
-
 
 # ----- Loading the dataset -----
 
@@ -45,27 +41,30 @@ if movies_df is not None:
     with st.expander("Check the complete dataset:"):
         st.dataframe(movies_df)
 
-# ----- Extracting some basic information from the dataset -----
+    # ----- Extracting some basic information from the dataset -----
 
-# TODO: Ex 2.2: What is the min and max release years?
+    # TODO: Ex 2.2: What is the min and max release years?
 
-    movies_df['release_year'].fillna(0, inplace=True)  
+    # Substitua NaN por um valor padrão ou use uma estratégia apropriada, como a média dos anos de lançamento
+    movies_df['release_year'].fillna(0, inplace=True)  # Substitua 0 pelo valor padrão desejado
 
     min_year = movies_df['release_year'].min()
     max_year = movies_df['release_year'].max()
 
     print(f"Min year: {min_year}, Max year: {max_year}")
-   
-else:
-    st.subheader("Error loading the dataset. Please check the data file path.")        
 
+    # Restante do código...
+else:
+    st.subheader("Error loading the dataset. Please check the data file path.")
 
 # TODO: Ex 2.3: How many director names are missing values (NaN)?
+
 num_missing_directors = movies_df['director'].isnull().sum()  # TODO
 
 print(f"Number of missing directors: {num_missing_directors}")
 
 # TODO: Ex 2.4: How many different countries are there in the data?
+
 df = movies_df.fillna('Unknown')
 
 countries_list = df["country"].unique().tolist()
@@ -80,14 +79,13 @@ for country in split_list:
     if country not in unique_countries_list and country != ("") and ',' not in country:
         unique_countries_list.append(country)
 
-n_countries = len(unique_countries_list)
+n_countries = len(unique_countries_list) 
 
 # TODO: Ex 2.5: How many characters long are on average the title names?
 
 avg_title_length = df['title'].apply(lambda x: len(x)).mean()  # TODO
 
 print(f"The average title length is {avg_title_length:.2f} characters")
-
 
 # ----- Displaying the extracted information metrics -----
 
@@ -112,8 +110,9 @@ year = cols2[0].number_input("Select a year:", min_year, max_year, 2005)
 
 # TODO: Ex 2.6: For a given year, get the Pandas Series of how many movies and series 
 # combined were made by every country, limit it to the top 10 countries.
-given_year = movies_df.loc[movies_df['release_year']==year]
-top_10_countries = given_year['country'].value_counts().head(10)
+
+targeted_year = movies_df.loc[movies_df['release_year']==year]
+top_10_countries = targeted_year['country'].value_counts().head(10)
 print(top_10_countries)
 
 # print(top_10_countries)
@@ -134,6 +133,7 @@ st.write("##")
 st.header("Avg Duration of Movies by Year")
 
 # TODO: Ex 2.7: Make a line chart of the average duration of movies (not TV shows) in minutes for every year across all the years. 
+
 for idx, row in df.iterrows():
     if row['type'] == 'Movie' and pd.notna(row['duration']):
         df.at[idx, 'duration_minutes'] = int(row['duration'].split(' ')[0])
@@ -145,6 +145,7 @@ if movies_avg_duration_per_year is not None:
     plt.plot(movies_avg_duration_per_year)
 
     # plt.plot(...# TODO: generate the line plot using plt.plot() and the information from movies_avg_duration_per_year (the vertical axes with the minutes value) and its index (the horizontal axes with the years)
+
     plt.title("Average Duration of Movies Across Years")
 
     st.pyplot(fig)
