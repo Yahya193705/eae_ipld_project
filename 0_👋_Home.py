@@ -57,7 +57,7 @@ st.write("""
 
 - ❤️ Passionate about travelling and discovering new cultures
 
-- 📫 How to reach me: yahyaakd2@gmail.com
+- 📫 How to reach me: yahyaakd2@gmail.com AND https://www.linkedin.com/in/yahya-akdi-9717861a1
 
 - 🏠 Barcelona
 """)
