@@ -51,7 +51,7 @@ st.subheader("About Me")
 
 # TODO: Modify and adapt the following lines to your info, you can add or remove some details if you want
 st.write("""
-- 🧑‍💻 Big Data & Analytics student 
+- 🧑‍💻 Big Data & Analytics  
 
 - 🛩️ Previous degree: Finance & Fintech
 
