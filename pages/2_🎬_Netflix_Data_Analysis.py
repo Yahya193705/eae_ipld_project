@@ -7,7 +7,7 @@ import streamlit as st
 
 # ----- Page configs -----
 st.set_page_config(
-    page_title="Guilherme Datt Portfolio",
+    page_title="Yahya's Portfolio",
     page_icon="📊",
 )
 
@@ -46,14 +46,14 @@ if movies_df is not None:
     # TODO: Ex 2.2: What is the min and max release years?
 
     # Substitua NaN por um valor padrão ou use uma estratégia apropriada, como a média dos anos de lançamento
-    movies_df['release_year'].fillna(0, inplace=True)  # Substitua 0 pelo valor padrão desejado
+    movies_df['release_year'].fillna(0, inplace=True)  
 
     min_year = movies_df['release_year'].min()
     max_year = movies_df['release_year'].max()
 
     print(f"Min year: {min_year}, Max year: {max_year}")
 
-    # Restante do código...
+    
 else:
     st.subheader("Error loading the dataset. Please check the data file path.")
 
